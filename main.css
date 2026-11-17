@@ -205,6 +205,11 @@ h2[dir=ltr] {
   margin-bottom: 26px;
 }
 
+.lead:empty {
+  display: none;
+  margin: 0;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
