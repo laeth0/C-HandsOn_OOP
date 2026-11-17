@@ -204,7 +204,6 @@ int main() {
     // Pass alice by value
     tryToModify(alice);
 
-    // Original alice is untouched!
     cout << "Inside main:     ";
     printStudent(alice);
 }`,
