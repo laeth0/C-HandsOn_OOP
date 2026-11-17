@@ -51,7 +51,7 @@ const workedExample = example => ({
 // 2. Chapters & Slides
 // ==========================================
 
-const chapters = ['Introduction', 'Classes & Objects', 'Encapsulation', 'Arrays & Functions', 'Inheritance'];
+const chapters = ['Introduction', 'Classes & Objects', 'Arrays & Functions'];
 
 const slides = [
 
@@ -74,57 +74,7 @@ const slides = [
     </div>`
   },
 
-  // ─── Slide 2: Encapsulation ───────────────────────────────────
-  {
-    title: 'Encapsulation',
-    chapter: 2,
-    subtitle: 'Bundle data and behavior together — and hide the details the outside world doesn\'t need to see.',
-    body: `<div class="grid">
-      <div class="stack">
-        ${card('The Problem Without Encapsulation', 'If <code>gpa</code> is public, any part of the program can write <code>s.gpa = 99</code> — no checks, no rules, broken data.')}
-        ${card('The Solution', 'Make <code>gpa</code> <code>private</code>. Provide a <code>setGpa()</code> method that validates the value before storing it.', true)}
-        ${note('<strong>private</strong> controls <em>who</em> can access the data. The setter controls <em>what values</em> are accepted. These are two separate concerns.')}
-        ${quiz(
-          'What does Encapsulation actually protect?',
-          'It protects the object\'s internal state from being put into an invalid or unexpected condition by outside code.'
-        )}
-      </div>
-      <div class="stack">
-        ${code(
-`class Student {
-private:
-    double gpa = 0.0;  // locked
-
-public:
-    // Read the value
-    double getGpa() const {
-        return gpa;
-    }
-
-    // Write only if valid
-    bool setGpa(double value) {
-        if (value >= 0.0 && value <= 4.0) {
-            gpa = value;
-            return true;
-        }
-        return false;  // rejected
-    }
-};
-
-int main() {
-    Student s;
-    s.setGpa(3.8);           // OK -> true
-    s.setGpa(99);            // rejected -> false
-    cout << s.getGpa();      // 3.8
-}`,
-          '3.8',
-          'C++ · Encapsulation'
-        )}
-      </div>
-    </div>`
-  },
-
-  // ─── Slide 3: Classes & Objects ──────────────────────────────
+  // ─── Slide 2: Classes & Objects ──────────────────────────────
   {
     title: 'Classes & Objects',
     chapter: 1,
@@ -167,10 +117,10 @@ Hi, I am Bob`,
     </div>`
   },
 
-  // ─── Slide 4: Arrays of Objects ──────────────────────────────
+  // ─── Slide 3: Arrays of Objects ──────────────────────────────
   {
     title: 'Arrays of Objects',
-    chapter: 3,
+    chapter: 2,
     subtitle: 'Store multiple objects of the same class in an array — then loop through them to work with each one.',
     body: `<div class="grid">
       <div class="stack">
@@ -217,20 +167,21 @@ Carol — GPA: 3.7`,
     </div>`
   },
 
-  // ─── Slide 5: Objects as Function Parameters ─────────────────
+  // ─── Slide 4: Objects as Function Parameters ─────────────────
   {
-    title: 'Objects as Function Parameters',
-    chapter: 3,
-    subtitle: 'You can pass an object into a function just like any other variable — giving functions access to its data and methods.',
+    title: 'Objects as Function Parameters (Pass by Value)',
+    chapter: 2,
+    subtitle: 'Passing an object to a function by value creates an independent copy — the original object in main() is never modified.',
     body: `<div class="grid">
       <div class="stack">
-        ${card('Pass by Value', 'The function gets a <strong>copy</strong> of the object. Changes inside the function do not affect the original.')}
+        ${card('Pass by Value', 'When an object is passed by value, C++ creates an independent <strong>copy</strong> for the function. Any changes made inside the function only affect the copy, leaving the original object completely unchanged.', true)}
         ${points([
-          'Use <code>const Student&</code> when you only need to read — faster and safer.',
-          'Use <code>Student&</code> when you need to modify the original object.',
-          'Use pass by value only when you intentionally want a separate copy.'
+          '<strong>Syntax:</strong> <code>void modify(Student s)</code> — passed by value with no special symbols.',
+          '<strong>Independent Copy:</strong> The function receives its own local duplicate in memory.',
+          '<strong>Original is Safe:</strong> Changing values (e.g. <code>s.gpa = 4.0</code>) inside the function never affects the original object.',
+          '<strong>Scope:</strong> The copied object exists only while the function is running, and is destroyed when it returns.'
         ])}
-        ${note('Prefer <code>const Student&</code> as the default for passing objects to functions — it avoids unnecessary copying.')}
+        ${note('<strong>Key Takeaway:</strong> With Pass by Value, the function can freely experiment with or modify its copy without any risk of breaking the original data.')}
       </div>
       <div class="stack">
         ${code(
@@ -240,14 +191,15 @@ public:
     double gpa = 0.0;
 };
 
-// Read-only: const reference
-void printInfo(const Student& s) {
-    cout << s.name << " — " << s.gpa << "\\n";
+// Receives a COPY of the Student object
+void tryToModify(Student s) {
+    s.name = "Modified";
+    s.gpa  = 4.0;
+    cout << "Inside function: " << s.name << " (" << s.gpa << ")\\n";
 }
 
-// Modify: reference
-void applyBonus(Student& s, double bonus) {
-    s.gpa += bonus;
+void printStudent(Student s) {
+    cout << s.name << " (" << s.gpa << ")\\n";
 }
 
 int main() {
@@ -255,78 +207,20 @@ int main() {
     alice.name = "Alice";
     alice.gpa  = 3.5;
 
-    printInfo(alice);       // Alice — 3.5
-    applyBonus(alice, 0.3);
-    printInfo(alice);       // Alice — 3.8
+    // Pass alice by value
+    tryToModify(alice);
+
+    // Original alice is untouched!
+    cout << "Inside main:     ";
+    printStudent(alice);
 }`,
-`Alice — 3.5
-Alice — 3.8`,
-          'C++ · Objects as Function Parameters'
+`Inside function: Modified (4)
+Inside main:     Alice (3.5)`,
+          'C++ · Pass by Value'
         )}
         ${quiz(
-          'What happens if you remove the & from applyBonus?',
-          'The function receives a copy of alice. The bonus is applied to the copy only — the original alice.gpa stays at 3.5.'
-        )}
-      </div>
-    </div>`
-  },
-
-  // ─── Slide 6: Inheritance ─────────────────────────────────────
-  {
-    title: 'Inheritance',
-    chapter: 4,
-    subtitle: 'A derived class automatically gets all the data and methods of its base class — then adds its own on top.',
-    body: `<div class="grid">
-      <div class="stack">
-        ${card('Base Class', 'The parent — defines shared data and behavior that all derived classes will inherit.')}
-        ${card('Derived Class', 'The child — inherits everything from the base and can add new members or override existing ones.', true)}
-        ${points([
-          '<code>class GradStudent : public Student</code> — GradStudent inherits from Student.',
-          'The derived class can use <code>name</code> and <code>gpa</code> without redeclaring them.',
-          'Add new members that only the derived class needs (e.g. <code>thesis</code>).',
-          '<code>public</code> inheritance keeps the base\'s public members public in the derived class.'
-        ])}
-        ${note('Inheritance models an <strong>is-a</strong> relationship: a GradStudent <em>is a</em> Student. If that sentence feels wrong, inheritance is probably the wrong tool.')}
-      </div>
-      <div class="stack">
-        ${code(
-`class Student {
-public:
-    string name;
-    double gpa = 0.0;
-
-    void introduce() {
-        cout << "Hi, I am " << name << "\\n";
-    }
-};
-
-// GradStudent inherits Student
-class GradStudent : public Student {
-public:
-    string thesis;
-
-    void showThesis() {
-        cout << name << " is writing: "
-             << thesis << "\\n";
-    }
-};
-
-int main() {
-    GradStudent g;
-    g.name   = "Alice";
-    g.gpa    = 3.9;
-    g.thesis = "Deep Learning";
-
-    g.introduce();    // inherited
-    g.showThesis();   // own method
-}`,
-`Hi, I am Alice
-Alice is writing: Deep Learning`,
-          'C++ · Inheritance'
-        )}
-        ${quiz(
-          'Can a GradStudent call introduce()?',
-          'Yes — <code>introduce()</code> is defined in Student and inherited by GradStudent. The derived class gets it for free.'
+          'Why did alice.gpa remain 3.5 after calling tryToModify(alice)?',
+          'Because alice was passed by value! The function received its own local copy. Modifying s.gpa inside tryToModify() only updated that copy, while the original alice object in main() remained untouched.'
         )}
       </div>
     </div>`
