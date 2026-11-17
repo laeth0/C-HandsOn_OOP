@@ -1,60 +1,58 @@
 'use strict';
 
 // ==========================================
-// 1. دوال مساعدة لتنسيق المحتوى (Helper Functions)
+// 1. Helper Functions
 // ==========================================
 
 const escapeHTML = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-// تلوين كود C++
+// C++ syntax highlighter
 function highlight(source) {
-  const tokens = /(\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b(?:class|public|private|protected|return|const|void|int|double|bool|virtual|override|for|if|else|using|namespace|this|true|false|new|delete|include)\b|\b(?:string|Student|Person|Shape|Rectangle|Circle|Resource)\b|\b\d+(?:\.\d+)?\b)/g;
+  const tokens = /(\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b(?:class|public|private|protected|return|const|void|int|double|bool|virtual|override|for|if|else|using|namespace|this|true|false|new|delete|include)\b|\b(?:string|Student|Person|Shape|Rectangle|Circle|Resource|GradStudent)\b|\b\d+(?:\.\d+)?\b)/g;
   let result = '', offset = 0;
   for (const match of source.matchAll(tokens)) {
     result += escapeHTML(source.slice(offset, match.index));
     const token = match[0];
-    const kind = token.startsWith('//') ? 'comment' : /^["']/.test(token) ? 'str' : /^\d/.test(token) ? 'num' : /^(string|Student|Person|Shape|Rectangle|Circle|Resource)$/.test(token) ? 'type' : 'kw';
+    const kind = token.startsWith('//') ? 'comment' : /^["']/.test(token) ? 'str' : /^\d/.test(token) ? 'num' : /^(string|Student|Person|Shape|Rectangle|Circle|Resource|GradStudent)$/.test(token) ? 'type' : 'kw';
     result += `<span class="${kind}">${escapeHTML(token)}</span>`;
     offset = match.index + token.length;
   }
   return result + escapeHTML(source.slice(offset));
 }
 
-// صندوق كود مع إمكانية عرض المخرجات والوسم
+// Code box with optional output and label
 const code = (source, output = '', label = 'C++ · snippet') => `<div class="codebox"><div class="codehead"><span>${escapeHTML(label)}</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div><pre dir="ltr"><code>${highlight(source)}</code></pre>${output ? `<div class="code-output"><span class="output-label">OUTPUT</span>${escapeHTML(output)}</div>` : ''}</div>`;
 
-// بطاقة محتوى (يمكن تمرير green = true لجعلها بلون مميز)
+// Content card (pass true as third arg for green highlight)
 const card = (title, text, green = false) => `<div class="card${green ? ' green' : ''}"><h3>${title}</h3><p>${text}</p></div>`;
 
-// قائمة نقاط
+// Bullet point list
 const points = items => `<ul class="points">${items.map(item => `<li>${item}</li>`).join('')}</ul>`;
 
-// صندوق ملاحظة / تنبيه
+// Callout / note box
 const note = text => `<div class="callout">${text}</div>`;
 
-// رسم توضيحي لكائن أو كلاس
+// UML-style object/class box
 const object = (title, lines, extra = '') => `<div class="object ${extra}"><div class="object-title">${title}</div><div class="object-body">${lines.map(line => `<span>${line}</span>`).join('')}</div></div>`;
 
-// سؤال وجواب قابل للفتح والطي
+// Collapsible quiz question
 const quiz = (question, answer) => `<details class="quiz"><summary>${question}</summary><div class="quiz-answer">${answer}</div></details>`;
 
-// قالب للأمثلة المحلولة
+// Template for worked examples
 const workedExample = example => ({
   title: example.title,
   chapter: example.chapter,
   subtitle: example.subtitle,
   example: true,
-  body: `<div class="grid"><div class="stack">${code(example.definition.replace(/\n\s*\n/g, '\n'), '', example.complete ? 'main.cpp · 1 / 2' : 'تعريف الكلاس · قبل main()')}${note(example.takeaway)}</div><div class="stack">${code(example.usage.replace(/\n\s*\n/g, '\n'), example.output, example.complete ? 'main.cpp · 2 / 2' : 'استخدام الكائن · داخل main()')}${points(example.explanation)}</div></div>`
+  body: `<div class="grid"><div class="stack">${code(example.definition.replace(/\n\s*\n/g, '\n'), '', example.complete ? 'main.cpp · 1 / 2' : 'Class definition · before main()')}${note(example.takeaway)}</div><div class="stack">${code(example.usage.replace(/\n\s*\n/g, '\n'), example.output, example.complete ? 'main.cpp · 2 / 2' : 'Using the object · inside main()')}${points(example.explanation)}</div></div>`
 });
 
 // ==========================================
-// 2. الفصول والشرائح (مفرغة وجاهزة لإضافة محتواك)
+// 2. Chapters & Slides
 // ==========================================
 
-// Chapters list
-const chapters = ['Introduction', 'Classes & Objects', 'Encapsulation', 'Constructors & Destructors', 'Inheritance & Abstraction'];
+const chapters = ['Introduction', 'Classes & Objects', 'Encapsulation', 'Arrays & Functions', 'Inheritance'];
 
-// Slides list
 const slides = [
 
   // ─── Slide 1: What is OOP? ───────────────────────────────────
@@ -79,11 +77,11 @@ const slides = [
   // ─── Slide 2: Encapsulation ───────────────────────────────────
   {
     title: 'Encapsulation',
-    chapter: 0,
+    chapter: 2,
     subtitle: 'Bundle data and behavior together — and hide the details the outside world doesn\'t need to see.',
     body: `<div class="grid">
       <div class="stack">
-        ${card('The Problem Without Encapsulation', 'If <code>gpa</code> is public, any part of the program can write <code>s.gpa = 99</code> — no checks, no rules, broken data.', false)}
+        ${card('The Problem Without Encapsulation', 'If <code>gpa</code> is public, any part of the program can write <code>s.gpa = 99</code> — no checks, no rules, broken data.')}
         ${card('The Solution', 'Make <code>gpa</code> <code>private</code>. Provide a <code>setGpa()</code> method that validates the value before storing it.', true)}
         ${note('<strong>private</strong> controls <em>who</em> can access the data. The setter controls <em>what values</em> are accepted. These are two separate concerns.')}
         ${quiz(
@@ -115,8 +113,8 @@ public:
 
 int main() {
     Student s;
-    s.setGpa(3.8);           // OK → true
-    s.setGpa(99);            // rejected → false
+    s.setGpa(3.8);           // OK -> true
+    s.setGpa(99);            // rejected -> false
     cout << s.getGpa();      // 3.8
 }`,
           '3.8',
@@ -129,7 +127,7 @@ int main() {
   // ─── Slide 3: Classes & Objects ──────────────────────────────
   {
     title: 'Classes & Objects',
-    chapter: 0,
+    chapter: 1,
     subtitle: 'A Class is the blueprint. An Object is a real instance built from that blueprint.',
     body: `<div class="grid">
       <div class="stack">
@@ -172,7 +170,7 @@ Hi, I am Bob`,
   // ─── Slide 4: Arrays of Objects ──────────────────────────────
   {
     title: 'Arrays of Objects',
-    chapter: 0,
+    chapter: 3,
     subtitle: 'Store multiple objects of the same class in an array — then loop through them to work with each one.',
     body: `<div class="grid">
       <div class="stack">
@@ -212,7 +210,7 @@ Carol — GPA: 3.7`,
           'C++ · Arrays of Objects'
         )}
         ${quiz(
-          'How do you print only students with GPA ≥ 3.5?',
+          'How do you print only students with GPA >= 3.5?',
           'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop — Alice and Carol would be printed.'
         )}
       </div>
@@ -222,11 +220,11 @@ Carol — GPA: 3.7`,
   // ─── Slide 5: Objects as Function Parameters ─────────────────
   {
     title: 'Objects as Function Parameters',
-    chapter: 0,
+    chapter: 3,
     subtitle: 'You can pass an object into a function just like any other variable — giving functions access to its data and methods.',
     body: `<div class="grid">
       <div class="stack">
-        ${card('Pass by Value', 'The function gets a <strong>copy</strong> of the object. Changes inside the function do not affect the original.', false)}
+        ${card('Pass by Value', 'The function gets a <strong>copy</strong> of the object. Changes inside the function do not affect the original.')}
         ${points([
           'Use <code>const Student&</code> when you only need to read — faster and safer.',
           'Use <code>Student&</code> when you need to modify the original object.',
@@ -276,176 +274,11 @@ Alice — 3.8`,
   // ─── Slide 6: Inheritance ─────────────────────────────────────
   {
     title: 'Inheritance',
-    chapter: 0,
+    chapter: 4,
     subtitle: 'A derived class automatically gets all the data and methods of its base class — then adds its own on top.',
     body: `<div class="grid">
       <div class="stack">
-        ${card('Base Class', 'The parent — defines shared data and behavior that all derived classes will inherit.', false)}
-        ${card('Derived Class', 'The child — inherits everything from the base and can add new members or override existing ones.', true)}
-        ${points([
-          '<code>class GradStudent : public Student</code> — GradStudent inherits from Student.',
-          'The derived class can use <code>name</code> and <code>gpa</code> without redeclaring them.',
-          'Add new members that only the derived class needs (e.g. <code>thesis</code>).',
-          '<code>public</code> inheritance keeps the base\'s public members public in the derived class.'
-        ])}
-        ${note('Inheritance models an <strong>is-a</strong> relationship: a GradStudent <em>is a</em> Student. If that sentence feels wrong, inheritance is probably the wrong tool.')}
-      </div>
-      <div class="stack">
-        ${code(
-`class Student {
-public:
-    string name;
-    double gpa = 0.0;
-
-    void introduce() {
-        cout << "Hi, I am " << name << "\\n";
-    }
-};
-
-// GradStudent inherits Student
-class GradStudent : public Student {
-public:
-    string thesis;
-
-    void showThesis() {
-        cout << name << " is writing: "
-             << thesis << "\\n";
-    }
-};
-
-int main() {
-    GradStudent g;
-    g.name   = "Alice";
-    g.gpa    = 3.9;
-    g.thesis = "Deep Learning";
-
-    g.introduce();    // inherited
-    g.showThesis();   // own method
-}`,
-`Hi, I am Alice
-Alice is writing: Deep Learning`,
-          'C++ · Inheritance'
-        )}
-        ${quiz(
-          'Can a GradStudent call introduce()?',
-          'Yes — <code>introduce()</code> is defined in Student and inherited by GradStudent. The derived class gets it for free.'
-        )}
-      </div>
-    </div>`
-  },
-
-  // ─── Slide 4: Arrays of Objects ──────────────────────────────
-  {
-    title: 'Arrays of Objects',
-    chapter: 0,
-    subtitle: 'Store multiple objects of the same class in an array — then loop through them to work with each one.',
-    body: `<div class="grid">
-      <div class="stack">
-        ${card('Why Arrays of Objects?', 'Instead of creating <code>s1</code>, <code>s2</code>, <code>s3</code>… separately, store them all in one array and process them with a loop.', true)}
-        ${points([
-          '<code>Student roster[3];</code> — creates an array of 3 Student objects.',
-          'Access members with <code>roster[i].name</code> and <code>roster[i].gpa</code>.',
-          'Use a <code>for</code> loop to read, print, or search through all objects.',
-          'Array indices start at <code>0</code> — the last element is at <code>size - 1</code>.'
-        ])}
-        ${note('Each element of the array is a full object — it has its own copy of all the data members.')}
-      </div>
-      <div class="stack">
-        ${code(
-`class Student {
-public:
-    string name;
-    double gpa = 0.0;
-};
-
-int main() {
-    Student roster[3];
-
-    roster[0].name = "Alice";  roster[0].gpa = 3.9;
-    roster[1].name = "Bob";    roster[1].gpa = 3.4;
-    roster[2].name = "Carol";  roster[2].gpa = 3.7;
-
-    for (int i = 0; i < 3; i++) {
-        cout << roster[i].name
-             << " — GPA: " << roster[i].gpa
-             << "\\n";
-    }
-}`,
-`Alice — GPA: 3.9
-Bob   — GPA: 3.4
-Carol — GPA: 3.7`,
-          'C++ · Arrays of Objects'
-        )}
-        ${quiz(
-          'How do you print only students with GPA ≥ 3.5?',
-          'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop — Alice and Carol would be printed.'
-        )}
-      </div>
-    </div>`
-  },
-
-  // ─── Slide 5: Objects as Function Parameters ─────────────────
-  {
-    title: 'Objects as Function Parameters',
-    chapter: 0,
-    subtitle: 'You can pass an object into a function just like any other variable — giving functions access to its data and methods.',
-    body: `<div class="grid">
-      <div class="stack">
-        ${card('Pass by Value', 'The function gets a <strong>copy</strong> of the object. Changes inside the function do not affect the original.', false)}
-        ${points([
-          'Use <code>const Student&</code> when you only need to read — faster and safer.',
-          'Use <code>Student&</code> when you need to modify the original object.',
-          'Use pass by value only when you intentionally want a separate copy.'
-        ])}
-        ${note('Prefer <code>const Student&</code> as the default for passing objects to functions — it avoids unnecessary copying.')}
-      </div>
-      <div class="stack">
-        ${code(
-`class Student {
-public:
-    string name;
-    double gpa = 0.0;
-};
-
-// Read-only: const reference
-void printInfo(const Student& s) {
-    cout << s.name << " — " << s.gpa << "\\n";
-}
-
-// Modify: reference
-void applyBonus(Student& s, double bonus) {
-    s.gpa += bonus;
-}
-
-int main() {
-    Student alice;
-    alice.name = "Alice";
-    alice.gpa  = 3.5;
-
-    printInfo(alice);       // Alice — 3.5
-    applyBonus(alice, 0.3);
-    printInfo(alice);       // Alice — 3.8
-}`,
-`Alice — 3.5
-Alice — 3.8`,
-          'C++ · Objects as Function Parameters'
-        )}
-        ${quiz(
-          'What happens if you remove the & from applyBonus?',
-          'The function receives a copy of alice. The bonus is applied to the copy only — the original alice.gpa stays at 3.5.'
-        )}
-      </div>
-    </div>`
-  },
-
-  // ─── Slide 6: Inheritance ─────────────────────────────────────
-  {
-    title: 'Inheritance',
-    chapter: 0,
-    subtitle: 'A derived class automatically gets all the data and methods of its base class — then adds its own on top.',
-    body: `<div class="grid">
-      <div class="stack">
-        ${card('Base Class', 'The parent — defines shared data and behavior that all derived classes will inherit.', false)}
+        ${card('Base Class', 'The parent — defines shared data and behavior that all derived classes will inherit.')}
         ${card('Derived Class', 'The child — inherits everything from the base and can add new members or override existing ones.', true)}
         ${points([
           '<code>class GradStudent : public Student</code> — GradStudent inherits from Student.',
@@ -501,7 +334,7 @@ Alice is writing: Deep Learning`,
 
 ];
 
-// أمثلة محلولة اختيارية (يتم إدراجها تلقائياً بعد الشريحة المحددة بالعنوان)
+// Optional worked examples — inserted automatically after the slide with the matching title
 const teachingExamples = [];
 teachingExamples.forEach(([afterTitle, example]) => {
   const position = slides.findIndex(slide => slide.title === afterTitle);
@@ -511,11 +344,11 @@ teachingExamples.forEach(([afterTitle, example]) => {
 });
 
 // ==========================================
-// 3. محرك عرض الشرائح والتفاعل (Slides Engine)
+// 3. Slides Engine
 // ==========================================
 
 const stage = document.getElementById('slides');
-stage.innerHTML = slides.map((s,i) => `<section class="slide${s.example ? ' teaching-example' : ''}" id="slide-${i+1}" aria-labelledby="slide-title-${i+1}" data-print-label="C++ · ${String(i+1).padStart(2,'0')} / ${slides.length}">${s.hero ? `<h2 id="slide-title-${i+1}" class="sr-only">${s.title}</h2>` : `<div class="eyebrow">${chapters[s.chapter] ? `${String(s.chapter+1).padStart(2,'0')} / ${chapters[s.chapter]}` : ''}${s.example ? ' / مثال محلول' : ''}</div><h2 id="slide-title-${i+1}"${/^[A-Za-z]/.test(s.title) ? ' dir="ltr"' : ''}>${s.title}</h2>${s.subtitle ? `<p class="lead">${s.subtitle}</p>` : ''}`}${s.body || ''}</section>`).join('');
+stage.innerHTML = slides.map((s,i) => `<section class="slide${s.example ? ' teaching-example' : ''}" id="slide-${i+1}" aria-labelledby="slide-title-${i+1}" data-print-label="C++ · ${String(i+1).padStart(2,'0')} / ${slides.length}">${s.hero ? `<h2 id="slide-title-${i+1}" class="sr-only">${s.title}</h2>` : `<div class="eyebrow">${chapters[s.chapter] ? `${String(s.chapter+1).padStart(2,'0')} / ${chapters[s.chapter]}` : ''}${s.example ? ' / Worked Example' : ''}</div><h2 id="slide-title-${i+1}"${/^[A-Za-z]/.test(s.title) ? ' dir="ltr"' : ''}>${s.title}</h2>${s.subtitle ? `<p class="lead">${s.subtitle}</p>` : ''}`}${s.body || ''}</section>`).join('');
 const sections = [...stage.querySelectorAll('.slide')];
 const previous = document.getElementById('previous');
 const next = document.getElementById('next');
@@ -537,8 +370,8 @@ function showSlide(index, updateHash = true) {
   document.getElementById('counter').innerHTML = `${String(current + 1).padStart(2, '0')} <span>/ ${slides.length}</span>`;
   document.getElementById('progress-fill').style.width = `${((current + 1) / slides.length) * 100}%`;
   progress.setAttribute('aria-valuenow', current + 1);
-  document.getElementById('announcement').textContent = `الشريحة ${current + 1} من ${slides.length}: ${slides[current]?.title || ''}`;
-  document.title = `${slides[current]?.title || ''} — C++ Slides`;
+  document.getElementById('announcement').textContent = `Slide ${current + 1} of ${slides.length}: ${slides[current]?.title || ''}`;
+  document.title = `${slides[current]?.title || ''} — C++ OOP`;
   if (updateHash) {
     try { history.replaceState(null, '', `#slide-${current + 1}`); } catch { /* Local file viewers can restrict history. */ }
   }
@@ -561,13 +394,13 @@ async function toggleFullscreen() {
     if (document.fullscreenElement) await document.exitFullscreen();
     else await document.documentElement.requestFullscreen();
   } catch {
-    document.getElementById('announcement').textContent = 'ملء الشاشة غير متاح في هذا المتصفح. يمكن استخدام F11.';
+    document.getElementById('announcement').textContent = 'Fullscreen is not available in this browser. Try F11.';
   }
 }
 fullscreenButton.addEventListener('click', toggleFullscreen);
 if (!document.fullscreenEnabled) fullscreenButton.hidden = true;
 document.addEventListener('fullscreenchange', () => {
-  const label = document.fullscreenElement ? 'الخروج من ملء الشاشة' : 'ملء الشاشة';
+  const label = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
   fullscreenButton.setAttribute('aria-label', label);
   fullscreenButton.title = label + ' (F)';
 });
@@ -602,14 +435,16 @@ if (gpaForm) {
   gpaForm.addEventListener('submit', event => {
     event.preventDefault();
     const input = document.getElementById('gpa-input');
-    const raw = input.value.trim().replace(/[٠-٩]/g, d => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d))).replace('٫', '.');
+    const raw = input.value.trim();
     const value = Number(raw);
     const valid = raw !== '' && Number.isFinite(value) && value >= 0 && value <= 4;
     if (valid) storedGpa = value;
     input.setAttribute('aria-invalid', String(!valid));
     const message = document.getElementById('gpa-message');
     message.classList.toggle('error', !valid);
-    message.textContent = valid ? `تم قبول القيمة. setGpa() أعادت true؛ المعدل الآن ${storedGpa.toFixed(2)}.` : `تم رفض القيمة. أدخل رقماً من 0 إلى 4؛ المعدل بقي ${storedGpa.toFixed(2)}.`;
+    message.textContent = valid
+      ? `Value accepted. setGpa() returned true — GPA is now ${storedGpa.toFixed(2)}.`
+      : `Value rejected. Enter a number from 0 to 4 — GPA remains ${storedGpa.toFixed(2)}.`;
     document.getElementById('gpa-value').textContent = storedGpa.toFixed(2);
   });
 }
