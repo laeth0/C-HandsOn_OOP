@@ -163,7 +163,7 @@ Carol (GPA: 3.7)`,
 
   // ─── Slide 4: Objects as Function Parameters ─────────────────
   {
-    title: 'Objects as Function Parameters (Pass by Value)',
+    title: 'Objects as Function Parameters',
     chapter: 2,
     subtitle: 'Passing an object to a function by value creates an independent copy; the original object in main() is never modified.',
     body: `<div class="grid">
@@ -211,10 +211,6 @@ int main() {
 `Inside function: Modified (4)
 Inside main:     Alice (3.5)`,
           'C++ · Pass by Value'
-        )}
-        ${quiz(
-          'Why did alice.gpa remain 3.5 after calling tryToModify(alice)?',
-          'Because alice was passed by value! The function received its own local copy. Modifying s.gpa inside tryToModify() only updated that copy, while the original alice object in main() remained untouched.'
         )}
       </div>
     </div>`

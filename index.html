@@ -10,18 +10,17 @@
 </head>
 <body>
   <div class="app">
-    <header class="topbar">
-      <div class="top-actions">
-        <button class="tool" id="fullscreen-button" aria-label="Fullscreen" title="Fullscreen (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
-      </div>
-    </header>
     <div class="workspace">
       <main class="stage" id="slides" aria-label="Object-Oriented Programming Slides"></main>
     </div>
     <footer class="footer">
       <div class="footer-start"><div class="counter" id="counter"></div><div class="progress" role="progressbar" aria-label="Deck progress" aria-valuemin="1" id="progress"><div class="progress-fill" id="progress-fill"></div></div></div>
       <div class="footer-shortcuts"><kbd>→</kbd> Next &nbsp; <kbd>←</kbd> Prev &nbsp; · &nbsp; <kbd>F</kbd> Fullscreen</div>
-      <nav class="navigation" aria-label="Slide navigation"><button class="nav-button" id="previous" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>Prev</button><button class="nav-button primary" id="next" aria-label="Next slide">Next<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></nav>
+      <nav class="navigation" aria-label="Slide navigation">
+        <button class="nav-button" id="previous" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>Prev</button>
+        <button class="nav-button primary" id="next" aria-label="Next slide">Next<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+        <button class="tool" id="fullscreen-button" aria-label="Fullscreen" title="Fullscreen (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+      </nav>
     </footer>
   </div>
   <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>

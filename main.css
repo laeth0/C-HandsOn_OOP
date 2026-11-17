@@ -142,7 +142,7 @@ button svg {
   display: grid;
   grid-template-columns: minmax(0,1fr);
   direction: ltr;
-  min-height: calc(100dvh - 177px);
+  min-height: calc(100dvh - 88px);
 }
 
 .stage {
@@ -702,6 +702,16 @@ kbd {
 
 .nav-button svg {
   width: 15px;
+}
+
+.navigation .tool {
+  height: 38px;
+  width: 38px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .live-label {
