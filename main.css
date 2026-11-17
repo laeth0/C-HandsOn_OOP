@@ -147,7 +147,7 @@ button svg {
 
 .stage {
   min-width: 0;
-  direction: rtl;
+  direction: ltr;
   display: flex;
   align-items: center;
   padding: 36px 0;
@@ -191,10 +191,11 @@ h2 {
   line-height: 1.35;
   letter-spacing: -1px;
   margin-bottom: 14px;
+  text-align: left;
 }
 
 h2[dir=ltr] {
-  text-align: right;
+  text-align: left;
 }
 
 .lead {
@@ -498,7 +499,7 @@ pre code {
 
 .section-name {
   direction: ltr;
-  text-align: right;
+  text-align: left;
   font-size: 12px;
   font-weight: 600;
   color: var(--green);
@@ -515,7 +516,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 15px;
-  text-align: right;
+  text-align: left;
 }
 
 th,td {
@@ -549,7 +550,7 @@ td:first-child {
 }
 
 .hero-copy {
-  direction: rtl;
+  direction: ltr;
   text-align: left;
 }
 
@@ -570,7 +571,7 @@ td:first-child {
   font-size: 19px;
   line-height: 1.9;
   color: var(--muted);
-  direction: rtl;
+  direction: ltr;
   text-align: left;
   max-width: 500px;
   margin-bottom: 20px;
@@ -672,7 +673,7 @@ td:first-child {
 
 .footer-shortcuts {
   font-size: 11px;
-  direction: rtl;
+  direction: ltr;
   color: var(--muted);
 }
 
@@ -1007,7 +1008,7 @@ kbd {
     gap: 24px;
   }
   .hero-copy {
-    text-align: right;
+    text-align: left;
   }
   .hero h1 {
     text-align: left;
@@ -1015,7 +1016,7 @@ kbd {
     letter-spacing: -3px;
   }
   .hero-subtitle {
-    text-align: right;
+    text-align: left;
     font-size: 17px;
   }
   .hero-art {
