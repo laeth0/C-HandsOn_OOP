@@ -69,7 +69,6 @@ const slides = [
           '<strong>Data (State)</strong>: what an object <em>knows</em> (e.g. color, speed).',
           '<strong>Behavior</strong>: what an object <em>does</em> (e.g. start(), brake()).'
         ])}
-        ${note('Think of a Class like a cookie cutter, and Objects as the cookies: same shape, different details.')}
       </div>
     </div>`
   },
@@ -126,10 +125,9 @@ Hi, I am Bob`,
       <div class="stack">
         ${card('Why Arrays of Objects?', 'Instead of creating <code>s1</code>, <code>s2</code>, <code>s3</code>… separately, store them all in one array and process them with a loop.', true)}
         ${points([
-          '<code>Student roster[3];</code> creates an array of 3 Student objects.',
-          'Access members with <code>roster[i].name</code> and <code>roster[i].gpa</code>.',
-          'Use a <code>for</code> loop to read, print, or search through all objects.',
-          'Array indices start at <code>0</code> (the last element is at <code>size - 1</code>).'
+          '<code>Student students[3];</code> creates an array of 3 Student objects.',
+          'Access members with <code>students[i].name</code> and <code>students[i].gpa</code>.',
+          'Use a <code>for</code> loop to read, print, or search through all objects.'
         ])}
         ${note('Each element of the array is a full object: it has its own copy of all the data members.')}
       </div>
@@ -142,15 +140,15 @@ public:
 };
 
 int main() {
-    Student roster[3];
+    Student students[3];
 
-    roster[0].name = "Alice";  roster[0].gpa = 3.9;
-    roster[1].name = "Bob";    roster[1].gpa = 3.4;
-    roster[2].name = "Carol";  roster[2].gpa = 3.7;
+    students[0].name = "Alice";  students[0].gpa = 3.9;
+    students[1].name = "Bob";    students[1].gpa = 3.4;
+    students[2].name = "Carol";  students[2].gpa = 3.7;
 
     for (int i = 0; i < 3; i++) {
-        cout << roster[i].name
-             << " (GPA: " << roster[i].gpa << ")"
+        cout << students[i].name
+             << " (GPA: " << students[i].gpa << ")"
              << "\\n";
     }
 }`,
@@ -158,10 +156,6 @@ int main() {
 Bob   (GPA: 3.4)
 Carol (GPA: 3.7)`,
           'C++ · Arrays of Objects'
-        )}
-        ${quiz(
-          'How do you print only students with GPA >= 3.5?',
-          'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop; Alice and Carol would be printed.'
         )}
       </div>
     </div>`
