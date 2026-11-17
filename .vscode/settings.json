@@ -1,0 +1,7 @@
+{
+    "C_Cpp.default.compilerPath": "C:/MinGW/bin/g++.exe",
+    "C_Cpp.default.intelliSenseMode": "windows-gcc-x86",
+    "terminal.integrated.env.windows": {
+        "PATH": "C:\\MinGW\\bin;${env:PATH}"
+    }
+}

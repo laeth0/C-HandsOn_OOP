@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5ee">
+  <meta name="description" content="عرض تعليمي تفاعلي لمقدمة البرمجة كائنية التوجه بلغة C++، من Classes وObjects إلى Inheritance وAbstract Classes.">
+  <title>Introduction to OOP — C++</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="top-actions">
+        <span class="course-label">C++ / THE FOUNDATIONS</span>
+        <button class="tool" id="fullscreen-button" aria-label="ملء الشاشة" title="ملء الشاشة (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+      </div>
+      <a class="brand" href="#slide-1" aria-label="الشريحة الأولى"><span class="brand-symbol">{ }</span><span><strong>OOP, made simple.</strong><small>A C++ LEARNING DECK</small></span></a>
+    </header>
+    <div class="workspace">
+      <main class="stage" id="slides" aria-label="شرائح مقدمة البرمجة كائنية التوجه"></main>
+    </div>
+    <footer class="footer">
+      <div class="footer-start"><div class="counter" id="counter"></div><div class="progress" role="progressbar" aria-label="تقدم العرض" aria-valuemin="1" id="progress"><div class="progress-fill" id="progress-fill"></div></div></div>
+      <div class="footer-shortcuts"><kbd>→</kbd> التالي &nbsp; <kbd>←</kbd> السابق &nbsp; · &nbsp; <kbd>F</kbd> ملء الشاشة</div>
+      <nav class="navigation" aria-label="التنقل بين الشرائح"><button class="nav-button" id="previous" aria-label="الشريحة السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>السابق</button><button class="nav-button primary" id="next" aria-label="الشريحة التالية">التالي<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></nav>
+    </footer>
+  </div>
+  <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <noscript><p class="noscript-message">يرجى تفعيل JavaScript لعرض الشرائح التفاعلية.</p></noscript>
+  <script src="main.js"></script>
+</body>
+</html>
