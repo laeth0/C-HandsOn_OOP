@@ -242,7 +242,7 @@ teachingExamples.forEach(([afterTitle, example]) => {
 // ==========================================
 
 const stage = document.getElementById('slides');
-stage.innerHTML = slides.map((s,i) => `<section class="slide${s.example ? ' teaching-example' : ''}" id="slide-${i+1}" aria-labelledby="slide-title-${i+1}" data-print-label="C++ · ${String(i+1).padStart(2,'0')} / ${slides.length}">${s.hero ? `<h2 id="slide-title-${i+1}" class="sr-only">${s.title}</h2>` : `<div class="eyebrow">${chapters[s.chapter] ? `${String(s.chapter+1).padStart(2,'0')} / ${chapters[s.chapter]}` : ''}${s.example ? ' / Worked Example' : ''}</div><h2 id="slide-title-${i+1}"${/^[A-Za-z]/.test(s.title) ? ' dir="ltr"' : ''}>${s.title}</h2>${s.subtitle ? `<p class="lead">${s.subtitle}</p>` : ''}`}${s.body || ''}</section>`).join('');
+stage.innerHTML = slides.map((s,i) => `<section class="slide${s.example ? ' teaching-example' : ''}" id="slide-${i+1}" aria-labelledby="slide-title-${i+1}" data-print-label="C++ · ${String(i+1).padStart(2,'0')} / ${slides.length}">${s.hero ? `<h2 id="slide-title-${i+1}" class="sr-only">${s.title}</h2>` : `<h2 id="slide-title-${i+1}"${/^[A-Za-z]/.test(s.title) ? ' dir="ltr"' : ''}>${s.title}</h2>${s.subtitle ? `<p class="lead">${s.subtitle}</p>` : ''}`}${s.body || ''}</section>`).join('');
 const sections = [...stage.querySelectorAll('.slide')];
 const previous = document.getElementById('previous');
 const next = document.getElementById('next');
