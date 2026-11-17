@@ -59,17 +59,17 @@ const slides = [
   {
     title: 'What is Object-Oriented Programming?',
     chapter: 0,
-    subtitle: 'A programming paradigm that organizes code around objects — combining data and behavior in one place.',
+    subtitle: 'A programming paradigm that organizes code around objects, combining data and behavior in one place.',
     body: `<div class="grid">
       <div class="stack">
-        ${card('The Core Idea', 'Instead of writing a list of instructions, OOP lets you model real-world things as <strong>objects</strong> — each with its own data and actions.', true)}
+        ${card('The Core Idea', 'Instead of writing a list of instructions, OOP lets you model real-world things as <strong>objects</strong>: each with its own data and actions.', true)}
         ${points([
-          '<strong>Object</strong> — a single instance of something (e.g. a specific car).',
-          '<strong>Class</strong> — the blueprint that defines what every object looks like.',
-          '<strong>Data (State)</strong> — what an object <em>knows</em> (e.g. color, speed).',
-          '<strong>Behavior</strong> — what an object <em>does</em> (e.g. start(), brake()).'
+          '<strong>Object</strong>: a single instance of something (e.g. a specific car).',
+          '<strong>Class</strong>: the blueprint that defines what every object looks like.',
+          '<strong>Data (State)</strong>: what an object <em>knows</em> (e.g. color, speed).',
+          '<strong>Behavior</strong>: what an object <em>does</em> (e.g. start(), brake()).'
         ])}
-        ${note('Think of a Class like a cookie cutter, and Objects as the cookies — same shape, different details.')}
+        ${note('Think of a Class like a cookie cutter, and Objects as the cookies: same shape, different details.')}
       </div>
     </div>`
   },
@@ -81,8 +81,8 @@ const slides = [
     subtitle: 'A Class is the blueprint. An Object is a real instance built from that blueprint.',
     body: `<div class="grid">
       <div class="stack">
-        ${card('Class — The Blueprint', 'Defines the structure: what data each object holds and what actions it can perform. Written once, used many times.', true)}
-        ${card('Object — The Instance', 'A concrete entity created from the class. Each object has its own copy of the data.')}
+        ${card('Class (The Blueprint)', 'Defines the structure: what data each object holds and what actions it can perform. Written once, used many times.', true)}
+        ${card('Object (The Instance)', 'A concrete entity created from the class. Each object has its own copy of the data.')}
         ${note('<code>Student s1</code> and <code>Student s2</code> share the same class definition, but their data is completely independent.')}
       </div>
       <div class="stack">
@@ -121,17 +121,17 @@ Hi, I am Bob`,
   {
     title: 'Arrays of Objects',
     chapter: 2,
-    subtitle: 'Store multiple objects of the same class in an array — then loop through them to work with each one.',
+    subtitle: 'Store multiple objects of the same class in an array, then loop through them to work with each one.',
     body: `<div class="grid">
       <div class="stack">
         ${card('Why Arrays of Objects?', 'Instead of creating <code>s1</code>, <code>s2</code>, <code>s3</code>… separately, store them all in one array and process them with a loop.', true)}
         ${points([
-          '<code>Student roster[3];</code> — creates an array of 3 Student objects.',
+          '<code>Student roster[3];</code> creates an array of 3 Student objects.',
           'Access members with <code>roster[i].name</code> and <code>roster[i].gpa</code>.',
           'Use a <code>for</code> loop to read, print, or search through all objects.',
-          'Array indices start at <code>0</code> — the last element is at <code>size - 1</code>.'
+          'Array indices start at <code>0</code> (the last element is at <code>size - 1</code>).'
         ])}
-        ${note('Each element of the array is a full object — it has its own copy of all the data members.')}
+        ${note('Each element of the array is a full object: it has its own copy of all the data members.')}
       </div>
       <div class="stack">
         ${code(
@@ -150,18 +150,18 @@ int main() {
 
     for (int i = 0; i < 3; i++) {
         cout << roster[i].name
-             << " — GPA: " << roster[i].gpa
+             << " (GPA: " << roster[i].gpa << ")"
              << "\\n";
     }
 }`,
-`Alice — GPA: 3.9
-Bob   — GPA: 3.4
-Carol — GPA: 3.7`,
+`Alice (GPA: 3.9)
+Bob   (GPA: 3.4)
+Carol (GPA: 3.7)`,
           'C++ · Arrays of Objects'
         )}
         ${quiz(
           'How do you print only students with GPA >= 3.5?',
-          'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop — Alice and Carol would be printed.'
+          'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop; Alice and Carol would be printed.'
         )}
       </div>
     </div>`
@@ -171,12 +171,12 @@ Carol — GPA: 3.7`,
   {
     title: 'Objects as Function Parameters (Pass by Value)',
     chapter: 2,
-    subtitle: 'Passing an object to a function by value creates an independent copy — the original object in main() is never modified.',
+    subtitle: 'Passing an object to a function by value creates an independent copy; the original object in main() is never modified.',
     body: `<div class="grid">
       <div class="stack">
         ${card('Pass by Value', 'When an object is passed by value, C++ creates an independent <strong>copy</strong> for the function. Any changes made inside the function only affect the copy, leaving the original object completely unchanged.', true)}
         ${points([
-          '<strong>Syntax:</strong> <code>void modify(Student s)</code> — passed by value with no special symbols.',
+          '<strong>Syntax:</strong> <code>void modify(Student s)</code>: passed by value with no special symbols.',
           '<strong>Independent Copy:</strong> The function receives its own local duplicate in memory.',
           '<strong>Original is Safe:</strong> Changing values (e.g. <code>s.gpa = 4.0</code>) inside the function never affects the original object.',
           '<strong>Scope:</strong> The copied object exists only while the function is running, and is destroyed when it returns.'
@@ -265,7 +265,7 @@ function showSlide(index, updateHash = true) {
   document.getElementById('progress-fill').style.width = `${((current + 1) / slides.length) * 100}%`;
   progress.setAttribute('aria-valuenow', current + 1);
   document.getElementById('announcement').textContent = `Slide ${current + 1} of ${slides.length}: ${slides[current]?.title || ''}`;
-  document.title = `${slides[current]?.title || ''} — C++ OOP`;
+  document.title = `${slides[current]?.title || ''} | C++ OOP`;
   if (updateHash) {
     try { history.replaceState(null, '', `#slide-${current + 1}`); } catch { /* Local file viewers can restrict history. */ }
   }
