@@ -51,17 +51,454 @@ const workedExample = example => ({
 // 2. الفصول والشرائح (مفرغة وجاهزة لإضافة محتواك)
 // ==========================================
 
-// قائمة الفصول
-const chapters = ['الأساسيات'];
+// Chapters list
+const chapters = ['Introduction', 'Classes & Objects', 'Encapsulation', 'Constructors & Destructors', 'Inheritance & Abstraction'];
 
-// قائمة الشرائح: أضف شرائحك هنا
+// Slides list
 const slides = [
+
+  // ─── Slide 1: What is OOP? ───────────────────────────────────
   {
-    title: 'عنوان الشريحة الأولى',
+    title: 'What is Object-Oriented Programming?',
     chapter: 0,
-    subtitle: 'وصف أو عنوان فرعي للشريحة',
-    body: `<div class="card"><h3>مرحباً بك</h3><p>ابدأ بإضافة محتوى شرائحك هنا.</p></div>`
+    subtitle: 'A programming paradigm that organizes code around objects — combining data and behavior in one place.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('The Core Idea', 'Instead of writing a list of instructions, OOP lets you model real-world things as <strong>objects</strong> — each with its own data and actions.', true)}
+        ${points([
+          '<strong>Object</strong> — a single instance of something (e.g. a specific car).',
+          '<strong>Class</strong> — the blueprint that defines what every object looks like.',
+          '<strong>Data (State)</strong> — what an object <em>knows</em> (e.g. color, speed).',
+          '<strong>Behavior</strong> — what an object <em>does</em> (e.g. start(), brake()).'
+        ])}
+        ${note('Think of a Class like a cookie cutter, and Objects as the cookies — same shape, different details.')}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 2: Encapsulation ───────────────────────────────────
+  {
+    title: 'Encapsulation',
+    chapter: 0,
+    subtitle: 'Bundle data and behavior together — and hide the details the outside world doesn\'t need to see.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('The Problem Without Encapsulation', 'If <code>gpa</code> is public, any part of the program can write <code>s.gpa = 99</code> — no checks, no rules, broken data.', false)}
+        ${card('The Solution', 'Make <code>gpa</code> <code>private</code>. Provide a <code>setGpa()</code> method that validates the value before storing it.', true)}
+        ${note('<strong>private</strong> controls <em>who</em> can access the data. The setter controls <em>what values</em> are accepted. These are two separate concerns.')}
+        ${quiz(
+          'What does Encapsulation actually protect?',
+          'It protects the object\'s internal state from being put into an invalid or unexpected condition by outside code.'
+        )}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+private:
+    double gpa = 0.0;  // locked
+
+public:
+    // Read the value
+    double getGpa() const {
+        return gpa;
+    }
+
+    // Write only if valid
+    bool setGpa(double value) {
+        if (value >= 0.0 && value <= 4.0) {
+            gpa = value;
+            return true;
+        }
+        return false;  // rejected
+    }
+};
+
+int main() {
+    Student s;
+    s.setGpa(3.8);           // OK → true
+    s.setGpa(99);            // rejected → false
+    cout << s.getGpa();      // 3.8
+}`,
+          '3.8',
+          'C++ · Encapsulation'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 3: Classes & Objects ──────────────────────────────
+  {
+    title: 'Classes & Objects',
+    chapter: 0,
+    subtitle: 'A Class is the blueprint. An Object is a real instance built from that blueprint.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Class — The Blueprint', 'Defines the structure: what data each object holds and what actions it can perform. Written once, used many times.', true)}
+        ${card('Object — The Instance', 'A concrete entity created from the class. Each object has its own copy of the data.')}
+        ${note('<code>Student s1</code> and <code>Student s2</code> share the same class definition, but their data is completely independent.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa;
+
+    void introduce() {
+        cout << "Hi, I am " << name << "\\n";
+    }
+};
+
+int main() {
+    Student s1;
+    s1.name = "Alice";
+    s1.gpa  = 3.9;
+
+    Student s2;
+    s2.name = "Bob";
+    s2.gpa  = 3.4;
+
+    s1.introduce();
+    s2.introduce();
+}`,
+`Hi, I am Alice
+Hi, I am Bob`,
+          'C++ · Classes & Objects'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 4: Arrays of Objects ──────────────────────────────
+  {
+    title: 'Arrays of Objects',
+    chapter: 0,
+    subtitle: 'Store multiple objects of the same class in an array — then loop through them to work with each one.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Why Arrays of Objects?', 'Instead of creating <code>s1</code>, <code>s2</code>, <code>s3</code>… separately, store them all in one array and process them with a loop.', true)}
+        ${points([
+          '<code>Student roster[3];</code> — creates an array of 3 Student objects.',
+          'Access members with <code>roster[i].name</code> and <code>roster[i].gpa</code>.',
+          'Use a <code>for</code> loop to read, print, or search through all objects.',
+          'Array indices start at <code>0</code> — the last element is at <code>size - 1</code>.'
+        ])}
+        ${note('Each element of the array is a full object — it has its own copy of all the data members.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa = 0.0;
+};
+
+int main() {
+    Student roster[3];
+
+    roster[0].name = "Alice";  roster[0].gpa = 3.9;
+    roster[1].name = "Bob";    roster[1].gpa = 3.4;
+    roster[2].name = "Carol";  roster[2].gpa = 3.7;
+
+    for (int i = 0; i < 3; i++) {
+        cout << roster[i].name
+             << " — GPA: " << roster[i].gpa
+             << "\\n";
+    }
+}`,
+`Alice — GPA: 3.9
+Bob   — GPA: 3.4
+Carol — GPA: 3.7`,
+          'C++ · Arrays of Objects'
+        )}
+        ${quiz(
+          'How do you print only students with GPA ≥ 3.5?',
+          'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop — Alice and Carol would be printed.'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 5: Objects as Function Parameters ─────────────────
+  {
+    title: 'Objects as Function Parameters',
+    chapter: 0,
+    subtitle: 'You can pass an object into a function just like any other variable — giving functions access to its data and methods.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Pass by Value', 'The function gets a <strong>copy</strong> of the object. Changes inside the function do not affect the original.', false)}
+        ${points([
+          'Use <code>const Student&</code> when you only need to read — faster and safer.',
+          'Use <code>Student&</code> when you need to modify the original object.',
+          'Use pass by value only when you intentionally want a separate copy.'
+        ])}
+        ${note('Prefer <code>const Student&</code> as the default for passing objects to functions — it avoids unnecessary copying.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa = 0.0;
+};
+
+// Read-only: const reference
+void printInfo(const Student& s) {
+    cout << s.name << " — " << s.gpa << "\\n";
+}
+
+// Modify: reference
+void applyBonus(Student& s, double bonus) {
+    s.gpa += bonus;
+}
+
+int main() {
+    Student alice;
+    alice.name = "Alice";
+    alice.gpa  = 3.5;
+
+    printInfo(alice);       // Alice — 3.5
+    applyBonus(alice, 0.3);
+    printInfo(alice);       // Alice — 3.8
+}`,
+`Alice — 3.5
+Alice — 3.8`,
+          'C++ · Objects as Function Parameters'
+        )}
+        ${quiz(
+          'What happens if you remove the & from applyBonus?',
+          'The function receives a copy of alice. The bonus is applied to the copy only — the original alice.gpa stays at 3.5.'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 6: Inheritance ─────────────────────────────────────
+  {
+    title: 'Inheritance',
+    chapter: 0,
+    subtitle: 'A derived class automatically gets all the data and methods of its base class — then adds its own on top.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Base Class', 'The parent — defines shared data and behavior that all derived classes will inherit.', false)}
+        ${card('Derived Class', 'The child — inherits everything from the base and can add new members or override existing ones.', true)}
+        ${points([
+          '<code>class GradStudent : public Student</code> — GradStudent inherits from Student.',
+          'The derived class can use <code>name</code> and <code>gpa</code> without redeclaring them.',
+          'Add new members that only the derived class needs (e.g. <code>thesis</code>).',
+          '<code>public</code> inheritance keeps the base\'s public members public in the derived class.'
+        ])}
+        ${note('Inheritance models an <strong>is-a</strong> relationship: a GradStudent <em>is a</em> Student. If that sentence feels wrong, inheritance is probably the wrong tool.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa = 0.0;
+
+    void introduce() {
+        cout << "Hi, I am " << name << "\\n";
+    }
+};
+
+// GradStudent inherits Student
+class GradStudent : public Student {
+public:
+    string thesis;
+
+    void showThesis() {
+        cout << name << " is writing: "
+             << thesis << "\\n";
+    }
+};
+
+int main() {
+    GradStudent g;
+    g.name   = "Alice";
+    g.gpa    = 3.9;
+    g.thesis = "Deep Learning";
+
+    g.introduce();    // inherited
+    g.showThesis();   // own method
+}`,
+`Hi, I am Alice
+Alice is writing: Deep Learning`,
+          'C++ · Inheritance'
+        )}
+        ${quiz(
+          'Can a GradStudent call introduce()?',
+          'Yes — <code>introduce()</code> is defined in Student and inherited by GradStudent. The derived class gets it for free.'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 4: Arrays of Objects ──────────────────────────────
+  {
+    title: 'Arrays of Objects',
+    chapter: 0,
+    subtitle: 'Store multiple objects of the same class in an array — then loop through them to work with each one.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Why Arrays of Objects?', 'Instead of creating <code>s1</code>, <code>s2</code>, <code>s3</code>… separately, store them all in one array and process them with a loop.', true)}
+        ${points([
+          '<code>Student roster[3];</code> — creates an array of 3 Student objects.',
+          'Access members with <code>roster[i].name</code> and <code>roster[i].gpa</code>.',
+          'Use a <code>for</code> loop to read, print, or search through all objects.',
+          'Array indices start at <code>0</code> — the last element is at <code>size - 1</code>.'
+        ])}
+        ${note('Each element of the array is a full object — it has its own copy of all the data members.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa = 0.0;
+};
+
+int main() {
+    Student roster[3];
+
+    roster[0].name = "Alice";  roster[0].gpa = 3.9;
+    roster[1].name = "Bob";    roster[1].gpa = 3.4;
+    roster[2].name = "Carol";  roster[2].gpa = 3.7;
+
+    for (int i = 0; i < 3; i++) {
+        cout << roster[i].name
+             << " — GPA: " << roster[i].gpa
+             << "\\n";
+    }
+}`,
+`Alice — GPA: 3.9
+Bob   — GPA: 3.4
+Carol — GPA: 3.7`,
+          'C++ · Arrays of Objects'
+        )}
+        ${quiz(
+          'How do you print only students with GPA ≥ 3.5?',
+          'Add an <code>if (roster[i].gpa >= 3.5)</code> check inside the loop — Alice and Carol would be printed.'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 5: Objects as Function Parameters ─────────────────
+  {
+    title: 'Objects as Function Parameters',
+    chapter: 0,
+    subtitle: 'You can pass an object into a function just like any other variable — giving functions access to its data and methods.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Pass by Value', 'The function gets a <strong>copy</strong> of the object. Changes inside the function do not affect the original.', false)}
+        ${points([
+          'Use <code>const Student&</code> when you only need to read — faster and safer.',
+          'Use <code>Student&</code> when you need to modify the original object.',
+          'Use pass by value only when you intentionally want a separate copy.'
+        ])}
+        ${note('Prefer <code>const Student&</code> as the default for passing objects to functions — it avoids unnecessary copying.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa = 0.0;
+};
+
+// Read-only: const reference
+void printInfo(const Student& s) {
+    cout << s.name << " — " << s.gpa << "\\n";
+}
+
+// Modify: reference
+void applyBonus(Student& s, double bonus) {
+    s.gpa += bonus;
+}
+
+int main() {
+    Student alice;
+    alice.name = "Alice";
+    alice.gpa  = 3.5;
+
+    printInfo(alice);       // Alice — 3.5
+    applyBonus(alice, 0.3);
+    printInfo(alice);       // Alice — 3.8
+}`,
+`Alice — 3.5
+Alice — 3.8`,
+          'C++ · Objects as Function Parameters'
+        )}
+        ${quiz(
+          'What happens if you remove the & from applyBonus?',
+          'The function receives a copy of alice. The bonus is applied to the copy only — the original alice.gpa stays at 3.5.'
+        )}
+      </div>
+    </div>`
+  },
+
+  // ─── Slide 6: Inheritance ─────────────────────────────────────
+  {
+    title: 'Inheritance',
+    chapter: 0,
+    subtitle: 'A derived class automatically gets all the data and methods of its base class — then adds its own on top.',
+    body: `<div class="grid">
+      <div class="stack">
+        ${card('Base Class', 'The parent — defines shared data and behavior that all derived classes will inherit.', false)}
+        ${card('Derived Class', 'The child — inherits everything from the base and can add new members or override existing ones.', true)}
+        ${points([
+          '<code>class GradStudent : public Student</code> — GradStudent inherits from Student.',
+          'The derived class can use <code>name</code> and <code>gpa</code> without redeclaring them.',
+          'Add new members that only the derived class needs (e.g. <code>thesis</code>).',
+          '<code>public</code> inheritance keeps the base\'s public members public in the derived class.'
+        ])}
+        ${note('Inheritance models an <strong>is-a</strong> relationship: a GradStudent <em>is a</em> Student. If that sentence feels wrong, inheritance is probably the wrong tool.')}
+      </div>
+      <div class="stack">
+        ${code(
+`class Student {
+public:
+    string name;
+    double gpa = 0.0;
+
+    void introduce() {
+        cout << "Hi, I am " << name << "\\n";
+    }
+};
+
+// GradStudent inherits Student
+class GradStudent : public Student {
+public:
+    string thesis;
+
+    void showThesis() {
+        cout << name << " is writing: "
+             << thesis << "\\n";
+    }
+};
+
+int main() {
+    GradStudent g;
+    g.name   = "Alice";
+    g.gpa    = 3.9;
+    g.thesis = "Deep Learning";
+
+    g.introduce();    // inherited
+    g.showThesis();   // own method
+}`,
+`Hi, I am Alice
+Alice is writing: Deep Learning`,
+          'C++ · Inheritance'
+        )}
+        ${quiz(
+          'Can a GradStudent call introduce()?',
+          'Yes — <code>introduce()</code> is defined in Student and inherited by GradStudent. The derived class gets it for free.'
+        )}
+      </div>
+    </div>`
   }
+
 ];
 
 // أمثلة محلولة اختيارية (يتم إدراجها تلقائياً بعد الشريحة المحددة بالعنوان)
